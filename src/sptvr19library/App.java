@@ -3,18 +3,28 @@ package sptvr19library;
 
 import entity.Reader;
 import entity.Book;
+import entity.History;
 import java.util.Scanner;
-import tools.BookFactory;
-import tools.BookSaver;
+import tools.managers.BookManager;
+import tools.severs.BookSaver;
+import tools.managers.HistoryManager;
+import tools.managers.ReaderManager;
+import tools.severs.ReaderSaver;
+
+
+
+
+
+
 
 class App {
     private Book[] books = new Book[100];
-    private Reader[] readers = new Reader[100];
+    private Reader[] readers = new Reader[100];  
+    private History[] histories = new History[100];
+    private ReaderManager readerManager = new ReaderManager();
+    private BookManager bookManager = new BookManager();
+    private HistoryManager historyManager = new HistoryManager();
 
-    public App() {
-        BookSaver bookSaver = new BookSaver();
-        books = bookSaver.loadFile();
-    }
     
     public void run(){
         System.out.println("--- Библиотека ---");
@@ -40,47 +50,22 @@ class App {
                 case "1":
                     System.out.println("---- Добавить новую книгу ----");
                     // создадим объект книги
-                    Book book;
-                    BookFactory bookFactory = new BookFactory();
-                    book = bookFactory.createBook();
-                    for (int i = 0; i < books.length; i++) {
-                        if(books[i] == null){
-                            books[i]=book;
-                            break;
-                        }
-                    }
+                    Book book = bookManager.createBook;
+                    bookManager.addReaderToArray(book, books);
+                    bookManager.prtintListBooks(books);
                     BookSaver bookSaver = new BookSaver();
-                    bookSaver.saveBooks(books);
-                    break;
+                    bookSaver.saveBooks(books);                                         
                 case "2":
-                    System.out.println("--- Cписок книг ---");
-                    for (int i = 0; i < books.length; i++) {
-                        if(books[i]!= null){
-                            System.out.printf("%3d. Название книги: %s%nАвтор: %s%n"
-                                    ,i+1
-                                    ,books[i].getName()
-                                    ,books[i].getAuthor()
-                            );
-                            System.out.println("--------------------------------");
-                            
-                        }
-                    }
+                    System.out.println("---- Список книг ----");
+                    bookManager.printListBook(books);
                     break;
                 case "3":
-                    System.out.println("--- Зарегистрировать нового читателя ---");
-                    Reader reader = new Reader("Martin", "Tamm", "56565656");
-                    Reader reader1 = new Reader("Nikolay", "Petrov","54455445");
-                    readers[0]=reader;
-                    readers[1]=reader1;
-                    
-                    System.out.printf("Новый пользователь: %s %s%n", 
-                                reader.getName(),
-                                reader.getLastname()
-                           );
-                    System.out.printf("Новый пользователь: %s %s%n", 
-                                reader1.getName(),
-                                reader1.getLastname()
-                           );
+                    System.out.println("---- Зарегестрировать нового читателя ----");
+                    Reader reader = readerManager.createReader();
+                    readerManager.addReaderToArray(reader, readers);
+                    readerManager.printListReaders(readers);
+                    ReaderSaver readerSaver = new ReaderSaver();
+                    readerSaver.saveReaders(readers);               
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
