@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @author user
  */
 public class HistoryManager {
-    private bookManager bookManager = new bookManager();
+    private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
     private Scanner scanner = new Scanner(System.in);
     
